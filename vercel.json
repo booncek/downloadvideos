@@ -1,0 +1,13 @@
+{
+    "rewrite": [
+        {
+            "source": "/api/(.*)",
+            "destination": "api/index.py"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "static/index.html"
+        }
+    ],
+    "framework": "fastapi"
+}

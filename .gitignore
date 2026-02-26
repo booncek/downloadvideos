@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+downloads/
+.DS_Store
+.vercel/
+.gemini/
+.agent/
+.agents/
+_agent/
+_agents/
+brain/
+*.log

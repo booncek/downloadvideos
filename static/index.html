@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT Download - Minimalist</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>YT Download</h1>
+            <p>Minimalist YouTube 720p Link Extractor</p>
+        </header>
+
+        <div class="search-box">
+            <input type="text" id="videoUrl" placeholder="Paste YouTube URL here..." aria-label="YouTube URL">
+            <button id="extractBtn">Extract</button>
+        </div>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p id="loadingMsg">Analyzing video...</p>
+        </div>
+
+        <div id="error" class="hidden">
+            <p id="errorMsg"></p>
+        </div>
+
+        <div id="result" class="hidden">
+            <div class="card">
+                <img id="thumbnail" src="" alt="Video Thumbnail">
+                <div class="info">
+                    <h2 id="videoTitle"></h2>
+                    <select id="resSelect" class="res-select"></select>
+                    <a id="downloadBtn" href="#" target="_blank" rel="noopener noreferrer">Download Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
