@@ -124,11 +124,23 @@ async def download_video(request: DownloadRequest):
     # Format string specifically selects the requested height
     format_str = f'bestvideo[height<={height}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<={height}]+bestaudio/best[height<={height}]'
 
-    # Resolve ffmpeg path (installed via winget)
-    ffmpeg_exe = os.path.join(os.environ.get('LOCALAPPDATA', ''), 
-                              'Microsoft', 'WinGet', 'Packages', 
-                              'Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe', 
-                              'ffmpeg-8.0.1-full_build', 'bin', 'ffmpeg.exe')
+    # Resolve ffmpeg path
+    # 1. Check for FFMPEG_PATH environment variable
+    # 2. Try 'ffmpeg' in system PATH
+    # 3. Fallback to hardcoded Windows WinGet path for local dev convenience
+    ffmpeg_exe = os.environ.get('FFMPEG_PATH', 'ffmpeg')
+    
+    if ffmpeg_exe == 'ffmpeg':
+        # Check if 'ffmpeg' is in PATH
+        import shutil
+        if not shutil.which('ffmpeg'):
+            # Fallback for Windows local dev
+            windows_fallback = os.path.join(os.environ.get('LOCALAPPDATA', ''), 
+                                          'Microsoft', 'WinGet', 'Packages', 
+                                          'Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe', 
+                                          'ffmpeg-8.0.1-full_build', 'bin', 'ffmpeg.exe')
+            if os.path.exists(windows_fallback):
+                ffmpeg_exe = windows_fallback
 
     ydl_opts = {
         'format': format_str,
@@ -136,7 +148,7 @@ async def download_video(request: DownloadRequest):
         'quiet': True,
         'no_warnings': True,
         'merge_output_format': 'mp4',
-        'ffmpeg_location': ffmpeg_exe if os.path.exists(ffmpeg_exe) else None,
+        'ffmpeg_location': ffmpeg_exe,
         'postprocessors': [{
             'key': 'FFmpegVideoConvertor',
             'preferedformat': 'mp4',

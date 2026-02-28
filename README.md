@@ -1,60 +1,53 @@
-# Minimalist YouTube Downloader (1080p Support)
+# Ultra-Minimal Video Downloader
 
-A lightweight, high-performance YouTube video downloader built with **FastAPI** and **yt-dlp**. Designed for simplicity and maximum quality.
+A premium, high-performance video downloader built with **FastAPI** and **yt-dlp**. Featuring an ultra-minimalist design with full dark mode support and containerized deployment.
 
-## 🚀 Features
+## 🚀 Key Features
 
-- **1080p & 4K Support**: Automatically detects and merges separate video/audio streams using FFmpeg.
-- **Resolution Selection**: Choose your preferred quality (1080p, 720p, 360p, etc.) from a dropdown menu.
-- **Minimalist UI**: Clean, glassmorphism-inspired dark mode interface.
-- **Fast Analysis**: Quick video metadata extraction and thumbnail preview.
-- **Serverless Ready**: Configured for deployment on Vercel.
+- **Ultra-Minimalist UI**: A clean, single-centered input design inspired by the latest premium UX trends.
+- **Dark Mode Toggle**: Fluid theme switching with persistent user preference (saved to local storage).
+- **1080p & 4K Support**: Automatically merges high-quality DASH streams using FFmpeg.
+- **Resolution Selection**: Intelligent detection of all available formats and resolutions.
+- **Dockerized**: Fully containerized setup for seamless deployment on any platform.
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Python, FastAPI, yt-dlp
-- **Frontend**: Vanilla HTML5, CSS3, JavaScript
-- **Processing**: FFmpeg (for merging high-quality DASH streams)
+- **Backend**: Python 3.11, FastAPI, yt-dlp
+- **Frontend**: Vanilla HTML5, Vanilla CSS (Design System based), Modern JavaScript
+- **Processing**: FFmpeg
+- **Infrastructure**: Docker & Docker Compose
 
-## 📋 Prerequisites
+## 🐳 Docker Setup (Recommended)
 
-- **Python 3.8+**
-- **FFmpeg**: Must be installed and available on your system PATH.
+The easiest way to run the application on any platform:
 
-## ⚡ Quick Start
-
-1. **Clone the repository**:
+1. **Start the application**:
    ```bash
-   git clone https://github.com/booncek/downloadvideos.git
-   cd downloadvideos
+   docker compose up --build -d
    ```
+2. **Access the UI**: Navigate to `http://localhost:8000`.
+3. **Downloads**: Videos are saved to the `downloads/` folder on your host machine via Docker volumes.
 
-2. **Set up a virtual environment**:
-   ```powershell
-   python -m venv venv
-   .\venv\Scripts\activate
-   ```
+## ⚡ Local Development
 
-3. **Install dependencies**:
+If you prefer to run it natively (requires Python and FFmpeg installed):
+
+1. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
-
-4. **Run the application**:
+2. **Run the Server**:
    ```bash
    python -m uvicorn main:app --reload
    ```
 
-5. **Open in browser**:
-   Navigate to `http://localhost:8000`.
-
 ## 📂 Project Structure
 
-- `main.py`: FastAPI server logic and extraction/download endpoints.
-- `static/`: Frontend assets (HTML, CSS, JS).
-- `requirements.txt`: Python dependencies.
-- `vercel.json`: Deployment configuration for Vercel.
+- `main.py`: Core logic for extraction and download.
+- `static/`: Modern, framework-free frontend.
+- `Dockerfile`: Multi-platform Linux environment with pre-installed FFmpeg.
+- `docker-compose.yml`: Simplified orchestration and volume mapping.
 
 ## 📝 License
 
-MIT License. Feel free to use and modify!
+MIT License. Free to use and modify!

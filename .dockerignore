@@ -1,0 +1,25 @@
+# Exclude local virtual environment
+venv/
+.env
+
+# Exclude Python cache
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Exclude local downloads
+downloads/
+
+# Exclude git
+.git/
+.gitignore
+
+# Exclude IDE settings
+.vscode/
+.idea/
+
+# Exclude temporary files
+temp_design.html
+temp_design_ultra_minimal.html
+.roo/
+.cline/
