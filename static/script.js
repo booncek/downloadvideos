@@ -1,35 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Theme Toggle Logic ---
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Check saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        body.classList.add('dark-mode');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        // Save preference
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // --- Downloader Logic ---
     const downloadForm = document.getElementById('downloadForm');
     const extractBtn = document.getElementById('extractBtn');
     const videoUrlInput = document.getElementById('videoUrl');
-    
-    // States
+
     const loading = document.getElementById('loading');
     const loadingMsg = document.getElementById('loadingMsg');
     const result = document.getElementById('result');
     const error = document.getElementById('error');
     const errorMsg = document.getElementById('errorMsg');
-    
-    // Result elements
+
     const videoTitle = document.getElementById('videoTitle');
     const resSelect = document.getElementById('resSelect');
     const thumbnail = document.getElementById('thumbnail');
     const downloadBtn = document.getElementById('downloadBtn');
-    const downloadBtnText = document.getElementById('downloadBtnText');
-    
+
     let extractedData = null;
 
     downloadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const url = videoUrlInput.value.trim();
         if (!url) return;
 
-        // Reset UI
         result.classList.add('hidden');
         error.classList.add('hidden');
         loading.classList.remove('hidden');
-        loadingMsg.textContent = 'Analyzing your video...';
+        loadingMsg.textContent = 'Parsing link...';
         extractBtn.disabled = true;
 
         try {
@@ -51,26 +68,18 @@ document.addEventListener('DOMContentLoaded', () => {
             resSelect.innerHTML = '';
             data.resolutions.forEach((res, index) => {
                 const option = document.createElement('option');
-                option.value = index; 
-                option.textContent = `${res.resolution} (${res.ext})${res.needs_merge ? ' - Standard Speed' : ' - Fast'}`;
+                option.value = index;
+                option.textContent = `${res.resolution} - ${res.ext} ${res.needs_merge ? '(Processing Needed)' : ''}`;
                 if (index === 0) option.selected = true;
                 resSelect.appendChild(option);
             });
 
-            // Update UI
             videoTitle.textContent = data.title;
-            // Set thumbnail or fallback if none
-            thumbnail.src = data.thumbnail || 'https://via.placeholder.com/600x400?text=No+Thumbnail';
-
-            if (data.resolutions.length > 0) {
-                const initialRes = data.resolutions[0];
-                downloadBtnText.textContent = `Download ${initialRes.resolution}`;
-            }
+            thumbnail.src = data.thumbnail || 'https://via.placeholder.com/600x400?text=Request+Failed';
 
             loading.classList.add('hidden');
             result.classList.remove('hidden');
-            
-            // Scroll to result slightly delayed for animation
+
             setTimeout(() => {
                 result.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 100);
@@ -84,21 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    resSelect.addEventListener('change', () => {
-        const selectedIdx = resSelect.value;
-        if (extractedData && extractedData.resolutions[selectedIdx]) {
-            const selectedRes = extractedData.resolutions[selectedIdx];
-            downloadBtnText.textContent = `Download ${selectedRes.resolution}`;
-        }
-    });
-
     downloadBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         if (!extractedData) return;
 
         const selectedIdx = resSelect.value;
         if (!selectedIdx && selectedIdx !== "0") return;
-        
+
         const selectedRes = extractedData.resolutions[selectedIdx];
 
         if (!selectedRes.needs_merge && selectedRes.url) {
@@ -108,10 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Server-side merge needed
         loading.classList.remove('hidden');
-        loadingMsg.textContent = `Processing ${selectedRes.resolution}... This might take a minute.`;
+        loadingMsg.textContent = `Processing video at ${selectedRes.resolution}...`;
         result.classList.add('hidden');
         error.classList.add('hidden');
         downloadBtn.classList.add('disabled');
+        downloadBtn.disabled = true;
 
         try {
             const response = await fetch('/api/download', {
@@ -125,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 const errData = await response.json();
-                throw new Error(errData.detail || 'Download failed during processing.');
+                throw new Error(errData.detail || 'Server encountered an error processing the video.');
             }
 
             // Trigger browser download
@@ -134,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const a = document.createElement('a');
             const safeTitle = (extractedData.title || 'video').replace(/[^a-zA-Z0-9\s-_\.\!\~]/g, "").trim();
             const filename = `${safeTitle}_${selectedRes.resolution}.mp4`;
-            
+
             a.href = blobUrl;
             a.download = filename;
             document.body.appendChild(a);
@@ -149,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loading.classList.add('hidden');
             result.classList.remove('hidden');
             downloadBtn.classList.remove('disabled');
+            downloadBtn.disabled = false;
         }
     });
 });

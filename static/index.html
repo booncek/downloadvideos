@@ -1,39 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VideoDownloader - Premium Video Tool</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
     <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+        <span class="material-symbols-outlined icon-sun">light_mode</span>
+        <span class="material-symbols-outlined icon-moon">dark_mode</span>
+    </button>
+
     <div class="app-container">
         <!-- Main Search Section -->
         <main class="hero-section" id="searchSection">
             <div class="hero-content">
                 <div class="brand-badge">
-                    <span class="material-icons-outlined">play_circle_filled</span>
-                    <span>VideoDownloader</span>
+                    <span class="material-symbols-outlined text-sm">bolt</span>
+                    <span>ULTRA FAST 4K DOWNLOADER</span>
                 </div>
-                <h1 class="hero-title">Download Your Favorite Videos in One Click</h1>
-                <p class="hero-subtitle">Experience high-speed video downloads from any platform. High quality, zero hassle.</p>
-                
+
+                <h1 class="hero-title">Download <span class="highlight-text">Video</span></h1>
+                <p class="hero-subtitle">Experience high-speed video downloads from any platform with just a single URL.
+                    High quality, zero hassle, unlimited formats.</p>
+
                 <form id="downloadForm" class="search-form">
                     <div class="input-group">
-                        <span class="material-icons-outlined input-icon">link</span>
-                        <input type="url" id="videoUrl" class="underlined-input" placeholder="Paste your video link here..." required autocomplete="off">
-                        <button type="submit" id="extractBtn" class="primary-btn">
-                            <span>Extract</span>
-                            <span class="material-icons-outlined">arrow_forward</span>
+                        <span class="material-symbols-outlined input-icon">link</span>
+                        <input type="url" id="videoUrl" class="ultra-input"
+                            placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" required autocomplete="off">
+                        <button type="submit" id="extractBtn" class="download-btn">
+                            <span class="material-symbols-outlined">download</span>
+                            <span>Download</span>
                         </button>
                     </div>
                 </form>
@@ -46,7 +59,7 @@
 
                 <!-- Error State -->
                 <div id="error" class="error-state hidden">
-                    <span class="material-icons-outlined">error_outline</span>
+                    <span class="material-symbols-outlined">error</span>
                     <p id="errorMsg">Failed to load video details.</p>
                 </div>
             </div>
@@ -54,28 +67,27 @@
 
         <!-- Result Section -->
         <section id="result" class="result-section hidden">
-            <div class="result-card">
+            <div class="result-card shadow-soft">
                 <div class="card-image-wrapper">
                     <img id="thumbnail" src="" alt="Video Thumbnail">
-                    <div class="image-overlay"></div>
                 </div>
                 <div class="card-details">
                     <h2 id="videoTitle" class="video-title">Video Title</h2>
-                    
+
                     <div class="quality-selector">
                         <label for="resSelect">Select Quality</label>
                         <div class="select-wrapper">
-                            <span class="material-icons-outlined select-icon">high_quality</span>
+                            <span class="material-symbols-outlined select-icon">high_quality</span>
                             <select id="resSelect">
                                 <!-- Dynamically filled -->
                             </select>
-                            <span class="material-icons-outlined select-arrow">expand_more</span>
+                            <span class="material-symbols-outlined select-arrow">expand_more</span>
                         </div>
                     </div>
 
-                    <button id="downloadBtn" class="download-submit-btn">
-                        <span class="material-icons-outlined">file_download</span>
-                        <span id="downloadBtnText">Download Video</span>
+                    <button id="downloadBtn" class="final-download-btn">
+                        <span class="material-symbols-outlined">file_download</span>
+                        <span id="downloadBtnText">Download Selected</span>
                     </button>
                 </div>
             </div>
@@ -84,4 +96,5 @@
 
     <script src="/static/script.js"></script>
 </body>
+
 </html>
