@@ -1,47 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YT Download - Minimalist</title>
+    <title>VideoDownloader - Premium Video Tool</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    
     <link rel="stylesheet" href="/static/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <div class="container">
-        <header>
-            <h1>YT Download</h1>
-            <p>Minimalist YouTube 720p Link Extractor</p>
-        </header>
+    <div class="app-container">
+        <!-- Main Search Section -->
+        <main class="hero-section" id="searchSection">
+            <div class="hero-content">
+                <div class="brand-badge">
+                    <span class="material-icons-outlined">play_circle_filled</span>
+                    <span>VideoDownloader</span>
+                </div>
+                <h1 class="hero-title">Download Your Favorite Videos in One Click</h1>
+                <p class="hero-subtitle">Experience high-speed video downloads from any platform. High quality, zero hassle.</p>
+                
+                <form id="downloadForm" class="search-form">
+                    <div class="input-group">
+                        <span class="material-icons-outlined input-icon">link</span>
+                        <input type="url" id="videoUrl" class="underlined-input" placeholder="Paste your video link here..." required autocomplete="off">
+                        <button type="submit" id="extractBtn" class="primary-btn">
+                            <span>Extract</span>
+                            <span class="material-icons-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+                </form>
 
-        <div class="search-box">
-            <input type="text" id="videoUrl" placeholder="Paste YouTube URL here..." aria-label="YouTube URL">
-            <button id="extractBtn">Extract</button>
-        </div>
+                <!-- Loading State -->
+                <div id="loading" class="loading-state hidden">
+                    <div class="spinner"></div>
+                    <p id="loadingMsg">Analyzing your video...</p>
+                </div>
 
-        <div id="loading" class="hidden">
-            <div class="spinner"></div>
-            <p id="loadingMsg">Analyzing video...</p>
-        </div>
-
-        <div id="error" class="hidden">
-            <p id="errorMsg"></p>
-        </div>
-
-        <div id="result" class="hidden">
-            <div class="card">
-                <img id="thumbnail" src="" alt="Video Thumbnail">
-                <div class="info">
-                    <h2 id="videoTitle"></h2>
-                    <select id="resSelect" class="res-select"></select>
-                    <a id="downloadBtn" href="#" target="_blank" rel="noopener noreferrer">Download Now</a>
+                <!-- Error State -->
+                <div id="error" class="error-state hidden">
+                    <span class="material-icons-outlined">error_outline</span>
+                    <p id="errorMsg">Failed to load video details.</p>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <!-- Result Section -->
+        <section id="result" class="result-section hidden">
+            <div class="result-card">
+                <div class="card-image-wrapper">
+                    <img id="thumbnail" src="" alt="Video Thumbnail">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-details">
+                    <h2 id="videoTitle" class="video-title">Video Title</h2>
+                    
+                    <div class="quality-selector">
+                        <label for="resSelect">Select Quality</label>
+                        <div class="select-wrapper">
+                            <span class="material-icons-outlined select-icon">high_quality</span>
+                            <select id="resSelect">
+                                <!-- Dynamically filled -->
+                            </select>
+                            <span class="material-icons-outlined select-arrow">expand_more</span>
+                        </div>
+                    </div>
+
+                    <button id="downloadBtn" class="download-submit-btn">
+                        <span class="material-icons-outlined">file_download</span>
+                        <span id="downloadBtnText">Download Video</span>
+                    </button>
+                </div>
+            </div>
+        </section>
     </div>
+
     <script src="/static/script.js"></script>
 </body>
-
 </html>

@@ -11,3 +11,4 @@ _agent/
 _agents/
 brain/
 *.log
+AGENTS.md
